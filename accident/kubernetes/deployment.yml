@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accident
+  labels:
+    app: accident
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: accident
+  template:
+    metadata:
+      labels:
+        app: accident
+    spec:
+      containers:
+        - name: accident
+          image: ghcr.io/kyusook/egov-uengine/accident:v1.2
+          ports:
+            - containerPort: 8080

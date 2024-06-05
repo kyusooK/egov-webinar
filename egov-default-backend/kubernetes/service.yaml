@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: egov-default-backend
+  labels:
+    app: egov-default-backend
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: egov-default-backendsment

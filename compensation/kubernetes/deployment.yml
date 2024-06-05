@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: compensation
+  labels:
+    app: compensation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: compensation
+  template:
+    metadata:
+      labels:
+        app: compensation
+    spec:
+      containers:
+        - name: compensation
+          image: ghcr.io/kyusook/egov-uengine/compensation:v1.2
+          ports:
+            - containerPort: 8080

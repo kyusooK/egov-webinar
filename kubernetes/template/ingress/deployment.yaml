@@ -1,0 +1,331 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: industrialaccident
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    ingressclass.kubernetes.io/is-default-class: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: ""
+      http:
+        paths:
+               - path: /accidents
+                 pathType: Prefix
+                 backend:
+                   service:
+                     name: accident
+                     port:
+                       number: 8080
+               - path: /assessments
+                 pathType: Prefix
+                 backend:
+                   service:
+                     name: assessment
+                     port:
+                       number: 8080
+               - path: /sickLeaves
+                 pathType: Prefix
+                 backend:
+                   service:
+                     name: assessment
+                     port:
+                       number: 8080
+               - path: /compensations
+                 pathType: Prefix
+                 backend:
+                   service:
+                     name: compensation
+                     port:
+                       number: 8080
+                - path: /egov-default-backend
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: egov-default-backend
+                      port:
+                        number: 8080
+                - path: /egov-default-frontend
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: egov-default-frontend
+                      port:
+                        number: 8080
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accident
+  labels:
+    app: accident
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: accident
+  template:
+    metadata:
+      labels:
+        app: accident
+    spec:
+      containers:
+        - name: accident
+          image: ghcr.io/kyusook/egov-uengine/accident:v1.2
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: assessment
+  labels:
+    app: assessment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: assessment
+  template:
+    metadata:
+      labels:
+        app: assessment
+    spec:
+      containers:
+        - name: assessment
+          image: ghcr.io/kyusook/egov-uengine/assessment:v1.2
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: compensation
+  labels:
+    app: compensation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: compensation
+  template:
+    metadata:
+      labels:
+        app: compensation
+    spec:
+      containers:
+        - name: compensation
+          image: ghcr.io/kyusook/egov-uengine/compensation:v1.2
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: egov-default-backend
+  labels:
+    app: egov-default-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: egov-default-backend
+  template:
+    metadata:
+      labels:
+        app: egov-default-backend
+    spec:
+      containers:
+        - name: egov-default-backend
+          image: ghcr.io/kyusook/egov-uengine/egov-default-backend:v1.2
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: egov-default-frontend
+  labels:
+    app: egov-default-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: egov-default-frontend
+  template:
+    metadata:
+      labels:
+        app: egov-default-frontend
+    spec:
+      containers:
+        - name: compensation
+          image: ghcr.io/kyusook/egov-uengine/egov-default-frontend:v1.2
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: accident
+  labels:
+    app: accident
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: accident
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: assessment
+  labels:
+    app: assessment
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: assessment
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: compensation
+  labels:
+    app: compensation
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: compensation
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: egov-default-backend
+  labels:
+    app: egov-default-backend
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: egov-default-backend
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: egov-default-frontend
+  labels:
+    app: egov-default-frontend
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: egov-default-frontend
+

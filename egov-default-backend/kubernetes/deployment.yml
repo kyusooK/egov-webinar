@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: egov-default-backend
+  labels:
+    app: egov-default-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: egov-default-backend
+  template:
+    metadata:
+      labels:
+        app: egov-default-backend
+    spec:
+      containers:
+        - name: egov-default-backend
+          image: kimkyusoo/egov-default-backend:0609
+          ports:
+            - containerPort: 8080

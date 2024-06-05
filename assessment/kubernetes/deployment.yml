@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: assessment
+  labels:
+    app: assessment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: assessment
+  template:
+    metadata:
+      labels:
+        app: assessment
+    spec:
+      containers:
+        - name: assessment
+          image: ghcr.io/kyusook/egov-uengine/assessment:v1.2
+          ports:
+            - containerPort: 8080

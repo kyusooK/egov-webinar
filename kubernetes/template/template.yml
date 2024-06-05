@@ -23,7 +23,7 @@ spec:
       containers: 
         - 
           name: "accident"
-          image: "ghcr.io/undefined"
+          image: "ghcr.io/kyusook/egov-webinar/accident:v0.6"
           ports: 
             - 
               containerPort: 8080
@@ -68,7 +68,7 @@ spec:
       containers: 
         - 
           name: "assessment"
-          image: "ghcr.io/undefined"
+          image: "ghcr.io/kyusook/egov-webinar/assessment:v0.6"
           ports: 
             - 
               containerPort: 8080
@@ -113,7 +113,7 @@ spec:
       containers: 
         - 
           name: "compensation"
-          image: "ghcr.io/undefined"
+          image: "ghcr.io/kyusook/egov-webinar/compensation:v0.6"
           ports: 
             - 
               containerPort: 8080
@@ -158,7 +158,7 @@ spec:
       containers: 
         - 
           name: "statistics"
-          image: "ghcr.io/undefined"
+          image: "ghcr.io/kyusook/egov-webinar/statistics:v0.6"
           ports: 
             - 
               containerPort: 8080
@@ -203,7 +203,7 @@ spec:
       containers: 
         - 
           name: "notification"
-          image: "ghcr.io/undefined"
+          image: "ghcr.io/kyusook/egov-webinar/notification:v0.6"
           ports: 
             - 
               containerPort: 8080

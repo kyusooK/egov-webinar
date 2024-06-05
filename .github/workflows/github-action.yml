@@ -2,7 +2,7 @@ name: github-action
 run-name: ${{ github.actor }} is out building GitHub Actions
 
 on:
-  push:
+  push: 
     # Pattern matched against refs/tags
     tags:        
       - '**' 
